@@ -8,16 +8,13 @@ class Environment
     "WEST" => [-1,0]
   }
 
-  def initialize
-    @x = @y = 0
-    # @cardinal = cardinal
-    # show
+
+  def self.valid_move?(pin)
+    pin[:x].to_i <= LENGTH && pin[:y].to_i <= WIDTH
   end
 
-  def show
-    puts "x #{@x}"
-    puts "y #{@y}"
-    puts "cardinal #{@cardinal}"
+  def self.valid_cardinal?(cardinal)
+    CARDINAL.keys.include?(cardinal[:cardinal])
   end
 
 end
