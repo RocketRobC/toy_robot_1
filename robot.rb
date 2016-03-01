@@ -7,13 +7,13 @@ class Robot
   end
 
   def read_commands(file)
-    File.read(file).split.each do |line|
+    File.read(file).split(/\n/).each do |line|
       interpret(line.strip)
     end
   end
 
   def interpret(line)
-    if line.match(/^(PLACE)/)
+    if line.match(/(^PLACE)/)
       place_command(line)
     elsif line.match(/\A(MOVE)\z/)
       move
@@ -30,7 +30,7 @@ class Robot
 
 
   def place_command(line)
-    position = line.split(",")
+    position = line.split(/\s|,/)
      if Environment.valid_move?(x: position[1], y: position[2]) && Environment.valid_cardinal?(cardinal: position[3])
        location(x: position[1], y: position[2], cardinal: position[3])
        @placed = true
@@ -62,10 +62,6 @@ class Robot
     @current_cardinal = current[:cardinal]
   end
 
-  def report
-    puts "#{@current_x}, #{@current_y}, #{@current_cardinal}" if placed?
-  end
-
   def cardinal
     Environment::CARDINAL[@current_cardinal]
   end
@@ -90,6 +86,8 @@ class Robot
     end
   end
 
-
+  def report
+    puts "#{@current_x}, #{@current_y}, #{@current_cardinal}" if placed?
+  end
 
 end
