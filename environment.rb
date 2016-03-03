@@ -1,4 +1,4 @@
-class Environment
+module Environment
   LENGTH = WIDTH = 5
 
   CARDINAL = {
@@ -10,7 +10,7 @@ class Environment
 
 
   def self.valid_move?(pin)
-    pin[:x].to_i <= LENGTH && pin[:y].to_i <= WIDTH
+    pin[:x].to_i < LENGTH && pin[:y].to_i < WIDTH
   end
 
   def self.valid_cardinal?(cardinal)

@@ -2,8 +2,18 @@ require_relative "environment"
 
 class Robot
 
-  def initialize(file)
-     read_commands(file)
+  attr_reader :reports
+  # 
+  # def reports
+  #   @reports
+  # end
+  #
+  # def reports=(new_reports)
+  #   @reports = new_reports
+  # end
+
+  def initialize
+    @reports = []
   end
 
   def read_commands(file)
@@ -87,7 +97,8 @@ class Robot
   end
 
   def report
-    puts "#{@current_x}, #{@current_y}, #{@current_cardinal}" if placed?
+    @reports << "#{@current_x}, #{@current_y}, #{@current_cardinal}" if placed?
+    # puts "#{@current_x}, #{@current_y}, #{@current_cardinal}" if placed?
   end
 
 end
