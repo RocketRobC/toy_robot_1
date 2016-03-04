@@ -3,14 +3,6 @@ require_relative "environment"
 class Robot
 
   attr_reader :reports
-  # 
-  # def reports
-  #   @reports
-  # end
-  #
-  # def reports=(new_reports)
-  #   @reports = new_reports
-  # end
 
   def initialize
     @reports = []
@@ -44,9 +36,6 @@ class Robot
      if Environment.valid_move?(x: position[1], y: position[2]) && Environment.valid_cardinal?(cardinal: position[3])
        location(x: position[1], y: position[2], cardinal: position[3])
        @placed = true
-     else
-      #  raise NoValidPlacementError
-      puts "Not a valid placement"
      end
   end
 
@@ -58,12 +47,7 @@ class Robot
     x = pin[:x] || @current_x
     y = pin[:y] || @current_y
     cardinal_direction = pin[:cardinal] || @current_cardinal
-    if Environment.valid_move?(x: x, y: y)
-      current_pin(x: x, y: y, cardinal: cardinal_direction)
-    else
-      # raise MoveOutOfBoundsError
-      puts "The Robot can't move out of bounds"
-    end
+    current_pin(x: x, y: y, cardinal: cardinal_direction) if Environment.valid_move?(x: x, y: y)
   end
 
   def current_pin(current)

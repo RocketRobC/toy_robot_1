@@ -10,7 +10,9 @@ module Environment
 
 
   def self.valid_move?(pin)
-    pin[:x].to_i < LENGTH && pin[:y].to_i < WIDTH
+    x = pin[:x].to_i
+    y = pin[:y].to_i
+    x >= 0 && x < LENGTH && y >= 0 && y < WIDTH
   end
 
   def self.valid_cardinal?(cardinal)
