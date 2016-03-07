@@ -1,4 +1,4 @@
-require_relative "environment"
+require_relative "environment2"
 
 class Robot
 
@@ -56,14 +56,6 @@ class Robot
     @current_cardinal = current[:cardinal]
   end
 
-  def cardinal
-    Environment::CARDINAL[@current_cardinal]
-  end
-
-  def cardinal_directions
-    Environment::CARDINAL.keys
-  end
-
   def move
     if placed?
       x = @current_x.to_i + cardinal[0]
@@ -75,9 +67,21 @@ class Robot
   def turn(direction)
     if placed?
       adjustment = direction == "left" ? -1 : 1
-      turn = cardinal_directions[cardinal_directions.index(@current_cardinal) + adjustment]
+      turn = cardinal_directions[(cardinal_directions.index(@current_cardinal) + adjustment) % cardinal_count]
       location(cardinal: turn)
     end
+  end
+
+  def cardinal
+    Environment::CARDINAL[@current_cardinal]
+  end
+
+  def cardinal_directions
+    Environment::CARDINAL.keys
+  end
+
+  def cardinal_count
+    cardinal_directions.count
   end
 
   def report
