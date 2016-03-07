@@ -1,4 +1,4 @@
-require_relative "environment2"
+require_relative "environment"
 
 class Robot
 
