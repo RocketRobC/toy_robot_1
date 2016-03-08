@@ -38,6 +38,10 @@ To test the application please run the rspec command.
 #### Design
 The main functionality of this application comprises of 3 components, the driver, the robot and the environment.
 
-When conceiving the application design it was important that the robot be self contained so didn't rely on other components for it's core operation. This allows the robot to negotiate different environments each with their own set of parameters by simply changing or supplying a new environment module.
+When designing the application it was important that the robot be self sufficient and not have reliance on other components for it's actions. This allows the robot to negotiate different environments each with their own set of parameters by simply changing or supplying a new environment module.
 
-...tbc.
+The robot is started by the driver which takes the received commands file and passes it to the read_commands method in the robot. From here the robot  reads the commands looking for the first valid PLACE command to set the initial position. A valid place command must be within the boundaries defined by the environment.
+
+Once the robot has been placed, subsequent MOVE, LEFT, RIGHT and REPORT commands will be processed. The robot will check each move to confirm that it stays within the environment ignoring any commands that would take it out of bounds.
+
+The REPORT command will print the current location and direction of the robot.

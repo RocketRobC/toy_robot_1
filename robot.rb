@@ -86,7 +86,6 @@ class Robot
 
   def report
     @reports << "#{@current_x}, #{@current_y}, #{@current_cardinal}" if placed?
-    # puts "#{@current_x}, #{@current_y}, #{@current_cardinal}" if placed?
   end
 
 end
