@@ -41,7 +41,3 @@ class Driver
   end
 
 end
-
-
-file = ARGV.first
-Driver.new(file)

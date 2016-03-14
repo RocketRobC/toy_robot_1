@@ -8,9 +8,9 @@ This application was developed with Ruby version 2.2.2 and tested with rspec ver
 To install the required Gems please run `bundle install`.
 
 ### Operation Instructions
-To run this application from the command line you will need to run the driver.rb file and pass in a command file as an argument.
+To run this application from the command line you will need to run the robot_starter.rb file and pass in a command file as an argument.
 
-`$ ruby driver.rb commands.txt`
+`$ ruby robot_starter.rb commands.txt`
 
 The contents of the commands file needs to follow the following format
 
