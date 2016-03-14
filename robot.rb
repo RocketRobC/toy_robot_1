@@ -1,61 +1,39 @@
 require_relative "environment"
+require "byebug"
 
 class Robot
 
-  attr_reader :reports, :current_x, :current_y, :current_cardinal
+  attr_reader :reports, :current_x, :current_y, :current_cardinal, :environment
 
-  def initialize
+  def initialize(environment)
     @reports = []
+    @environment = environment
   end
 
-  def read_commands(file)
-    File.read(file).split(/\n/).each do |line|
-      interpret(line.strip)
+
+  def place_command(position)
+    if valid_placement?(position)
+      set_location(position)
+      @placed = true
     end
   end
-
-  def interpret(line)
-    if line.match(/(^PLACE)/)
-      place_command(line)
-    elsif line.match(/\A(MOVE)\z/)
-      move
-    elsif line.match(/\A(LEFT)\z/)
-      turn("left")
-    elsif line.match(/\A(RIGHT)\z/)
-      turn("right")
-    elsif line.match(/\A(REPORT)\z/)
-      report
-    elsif
-      puts "Not a valid Robot command"
-    end
-  end
-
-
-  def place_command(line)
-    position = line.split(/\s|,/)
-     if valid_placement?(position)
-       location(x: position[1], y: position[2], cardinal: position[3])
-       @placed = true
-     end
-  end
-
 
   def valid_placement?(position)
-    Environment.valid_move?(x: position[1], y: position[2]) && Environment.valid_cardinal?(cardinal: position[3])
+    environment.valid_move?(position)
   end
 
   def placed?
     @placed
   end
 
-  def location(pin)
+  def set_location(pin)
     x = pin[:x] || current_x
     y = pin[:y] || current_y
     cardinal_direction = pin[:cardinal] || current_cardinal
-    current_pin(x: x, y: y, cardinal: cardinal_direction) if Environment.valid_move?(x: x, y: y)
+    set_current_pin(x: x, y: y, cardinal: cardinal_direction) if environment.valid_move?(x: x, y: y)
   end
 
-  def current_pin(current)
+  def set_current_pin(current)
     @current_x = current[:x]
     @current_y = current[:y]
     @current_cardinal = current[:cardinal]
@@ -63,9 +41,9 @@ class Robot
 
   def move
     if placed?
-      x = current_x.to_i + cardinal[0]
-      y = current_y.to_i + cardinal[1]
-      location(x: x, y: y)
+      x = current_x + cardinal[0]
+      y = current_y + cardinal[1]
+      set_location(x: x, y: y)
     end
   end
 
@@ -73,16 +51,16 @@ class Robot
     if placed?
       adjustment = direction == "left" ? -1 : 1
       turn = cardinal_directions[(cardinal_directions.index(current_cardinal) + adjustment) % cardinal_count]
-      location(cardinal: turn)
+      set_location(cardinal: turn)
     end
   end
 
   def cardinal
-    Environment::CARDINAL[current_cardinal]
+    environment.direction_offsets(current_cardinal)
   end
 
   def cardinal_directions
-    Environment::CARDINAL.keys
+    environment.directions
   end
 
   def cardinal_count
